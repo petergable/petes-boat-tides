@@ -249,17 +249,20 @@ function boatWindows(start,end){
 function drawChart(){
 
   const canvas=el("chart");
-  const rect=canvas.getBoundingClientRect();
-  const ratio=window.devicePixelRatio||1;
 
-  canvas.width=rect.width*ratio;
-  canvas.height=rect.height*ratio;
+const W=canvas.parentElement.clientWidth;
+const H=310;
+const ratio=window.devicePixelRatio||1;
 
-  const ctx=canvas.getContext("2d");
-  ctx.scale(ratio,ratio);
+canvas.style.width=W+"px";
+canvas.style.height=H+"px";
 
-  const W=rect.width;
-  const H=rect.height;
+canvas.width=Math.round(W*ratio);
+canvas.height=Math.round(H*ratio);
+
+const ctx=canvas.getContext("2d");
+ctx.setTransform(ratio,0,0,ratio,0,0);
+
 
   const LEFT=50;
   const RIGHT=10;
