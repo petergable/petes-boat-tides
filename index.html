@@ -1,12 +1,12 @@
 <!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071827">
+<title>Pete's Boat Tides</title>
 
-
-
-
-
-Pete's Boat Tides
-
-
+<style>
 :root{
   --bg:#071827;
   --card:#102638;
@@ -54,82 +54,82 @@ canvas{width:100%;height:100%}
 .window{margin-top:8px;background:var(--greenbg);border-left:4px solid var(--green);border-radius:11px;padding:11px;display:flex;justify-content:space-between;gap:8px}
 .error{margin-top:15px;background:#40252b;border:1px solid #a64f59;padding:13px;border-radius:13px}
 footer{color:#718899;font-size:11px;line-height:1.45;margin-top:16px}
+</style>
+</head>
 
+<body>
+<div class="wrap">
 
+<div class="top">
+  <div>
+    <div class="eyebrow">DEWEY BEACH</div>
+    <h1>Boat Tides</h1>
+    <div class="sub">Indian River Inlet +180 min</div>
+  </div>
+  <button id="settingsButton">Settings</button>
+</div>
 
+<div id="settings" class="settings hidden">
+  <strong>Minimum boat depth</strong>
+  <div class="settingrow">
+    <input id="depth" type="range" min="0.5" max="3" step="0.1" value="1.6">
+    <strong id="depthValue">1.6 ft</strong>
+  </div>
+</div>
 
-
-
-
-  
-    DEWEY BEACH
-    Boat Tides
-    Indian River Inlet +180 min
-  
-  Settings
-
-
-
-  Minimum boat depth
-  
-    
-    1.6 ft
-  
-
-
-
+<div id="loading" class="muted" style="margin-top:20px">
 Loading NOAA tide predictions...
+</div>
 
+<div id="error" class="error hidden"></div>
 
+<div id="main" class="hidden">
 
+<section id="status" class="card status">
+  <div class="eyebrow">RIGHT NOW</div>
+  <div id="statusTitle" class="statusTitle"></div>
 
+  <div class="metrics">
+    <div class="metric">
+      <span class="muted">PREDICTED LEVEL</span>
+      <b id="currentLevel"></b>
+    </div>
+    <div class="metric">
+      <span id="nextLabel" class="muted"></span>
+      <b id="nextTime"></b>
+    </div>
+  </div>
+</section>
 
+<div class="sectionHead">
+  <div>
+    <h2>Next 24 Hours</h2>
+    <div id="timeRange" class="muted"></div>
+  </div>
+  <div class="greenLabel">GREEN = BOAT OPEN</div>
+</div>
 
+<div class="chart">
+  <canvas id="chart"></canvas>
+</div>
 
-  RIGHT NOW
-  
+<div class="sectionHead">
+  <h2>Boat Windows · Next 3 Days</h2>
+</div>
 
-  
-    
-      PREDICTED LEVEL
-      
-    
-    
-      
-      
-    
-  
+<div id="windows" class="windows"></div>
 
+</div>
 
-
-  
-    Next 24 Hours
-    
-  
-  GREEN = BOAT OPEN
-
-
-
-  
-
-
-
-  Boat Windows · Next 3 Days
-
-
-
-
-
-
-
+<footer>
 NOAA Indian River Inlet station 8558690 · MLLW · Predictions shifted 180 minutes later.
 Minimum boat depth defaults to 1.6 ft. Weather and local conditions can cause actual
 water levels to differ from predictions.
+</footer>
 
+</div>
 
-
-
-
+<script>
 (function(){
 
 const STATION="8558690";
@@ -225,29 +225,24 @@ function crossings(start,end){
       }
     }
   }
-
   return result;
 }
 
 function boatWindows(start,end){
-
   const changes=crossings(start,end);
   const result=[];
   let open=valueAt(start)>=threshold?start:null;
 
   changes.forEach(function(change){
-
     if(change.open){
       open=change.time;
     }else if(open){
       result.push([open,change.time]);
       open=null;
     }
-
   });
 
   if(open){result.push([open,end]);}
-
   return result;
 }
 
@@ -255,18 +250,19 @@ function drawChart(){
 
   const canvas=el("chart");
 
-  const W=canvas.parentElement.clientWidth;
-  const H=310;
-  const ratio=window.devicePixelRatio||1;
+const W=canvas.parentElement.clientWidth;
+const H=310;
+const ratio=window.devicePixelRatio||1;
 
-  canvas.style.width=W+"px";
-  canvas.style.height=H+"px";
+canvas.style.width=W+"px";
+canvas.style.height=H+"px";
 
-  canvas.width=Math.round(W*ratio);
-  canvas.height=Math.round(H*ratio);
+canvas.width=Math.round(W*ratio);
+canvas.height=Math.round(H*ratio);
 
-  const ctx=canvas.getContext("2d");
-  ctx.setTransform(ratio,0,0,ratio,0,0);
+const ctx=canvas.getContext("2d");
+ctx.setTransform(ratio,0,0,ratio,0,0);
+
 
   const LEFT=50;
   const RIGHT=10;
@@ -283,14 +279,7 @@ function drawChart(){
   if(!visible.length){return;}
 
   const min=-1;
-
-  const highest=Math.max.apply(
-    null,
-    visible.map(function(p){
-      return p.value;
-    })
-  );
-
+  const highest=Math.max.apply(null,visible.map(function(p){return p.value;}));
   const max=Math.max(4,Math.ceil(highest));
 
   const plotW=W-LEFT-RIGHT;
@@ -306,18 +295,14 @@ function drawChart(){
 
   ctx.clearRect(0,0,W,H);
 
-  /* water-level axis and grid */
-
   ctx.font="11px system-ui";
   ctx.textAlign="right";
 
   for(let v=min;v<=max;v++){
-
     const y=Y(v);
 
     ctx.strokeStyle="rgba(203,213,225,.13)";
     ctx.lineWidth=1;
-
     ctx.beginPath();
     ctx.moveTo(LEFT,y);
     ctx.lineTo(W-RIGHT,y);
@@ -327,63 +312,41 @@ function drawChart(){
     ctx.fillText(v.toFixed(1)+"′",LEFT-7,y+4);
   }
 
-  /* ONE boat threshold line */
-
   const thresholdY=Y(threshold);
 
+  /* ONE green threshold line only */
   ctx.strokeStyle="#34d399";
   ctx.lineWidth=2;
   ctx.setLineDash([7,6]);
-
   ctx.beginPath();
   ctx.moveTo(LEFT,thresholdY);
   ctx.lineTo(W-RIGHT,thresholdY);
   ctx.stroke();
-
   ctx.setLineDash([]);
 
   ctx.fillStyle="#6ee7b7";
   ctx.font="bold 11px system-ui";
+  ctx.fillText(threshold.toFixed(1)+"′",LEFT-7,thresholdY+4);
 
-  ctx.fillText(
-    threshold.toFixed(1)+"′",
-    LEFT-7,
-    thresholdY+4
-  );
-
-  /* green fill from tide curve down to threshold */
+  /*
+    Green fill is clipped at the threshold.
+    This fills ALL usable area between the tide curve
+    and the minimum-depth line.
+  */
 
   ctx.save();
-
   ctx.beginPath();
-  ctx.rect(
-    LEFT,
-    TOP,
-    plotW,
-    Math.max(0,thresholdY-TOP)
-  );
-
+  ctx.rect(LEFT,TOP,plotW,Math.max(0,thresholdY-TOP));
   ctx.clip();
 
   ctx.beginPath();
-
-  ctx.moveTo(
-    X(visible[0].time),
-    thresholdY
-  );
+  ctx.moveTo(X(visible[0].time),thresholdY);
 
   visible.forEach(function(p){
-    ctx.lineTo(
-      X(p.time),
-      Y(p.value)
-    );
+    ctx.lineTo(X(p.time),Y(p.value));
   });
 
-  ctx.lineTo(
-    X(visible[visible.length-1].time),
-    thresholdY
-  );
-
+  ctx.lineTo(X(visible[visible.length-1].time),thresholdY);
   ctx.closePath();
 
   ctx.fillStyle="rgba(52,211,153,.42)";
@@ -391,35 +354,29 @@ function drawChart(){
 
   ctx.restore();
 
-  /* blue tide curve */
+  /* Blue tide curve */
 
   ctx.strokeStyle="#9bdff5";
   ctx.lineWidth=3;
-
   ctx.beginPath();
 
   visible.forEach(function(p,i){
-
-    const x=X(p.time);
-    const y=Y(p.value);
-
     if(i===0){
-      ctx.moveTo(x,y);
+      ctx.moveTo(X(p.time),Y(p.value));
     }else{
-      ctx.lineTo(x,y);
+      ctx.lineTo(X(p.time),Y(p.value));
     }
-
   });
 
   ctx.stroke();
 
-  /* OPEN / CLOSE crossing dots */
+  /* OPEN / CLOSE dots */
 
   const changes=crossings(now,end);
 
   ctx.textAlign="center";
 
-  changes.forEach(function(change){
+  changes.forEach(function(change,index){
 
     const x=X(change.time);
 
@@ -428,59 +385,29 @@ function drawChart(){
     ctx.lineWidth=3;
 
     ctx.beginPath();
-    ctx.arc(
-      x,
-      thresholdY,
-      6,
-      0,
-      Math.PI*2
-    );
-
+    ctx.arc(x,thresholdY,6,0,Math.PI*2);
     ctx.fill();
     ctx.stroke();
 
-    /* OPEN is always above; CLOSE is always below */
-
-    const labelY=
-      thresholdY+
-      (change.open?-24:29);
+    const labelY=thresholdY+(index%2?29:-24);
 
     ctx.fillStyle="#ffffff";
     ctx.font="bold 10px system-ui";
-
-    ctx.fillText(
-      change.open?"OPEN":"CLOSE",
-      x,
-      labelY
-    );
+    ctx.fillText(change.open?"OPEN":"CLOSE",x,labelY);
 
     ctx.fillStyle="#b8f5da";
     ctx.font="9px system-ui";
-
-    ctx.fillText(
-      timeText(change.time),
-      x,
-      labelY+11
-    );
+    ctx.fillText(timeText(change.time),x,labelY+11);
   });
 
-  /* rolling 24-hour clock axis */
-
-  const six=
-    new Date(now.getTime()+21600000);
-
-  const twelve=
-    new Date(now.getTime()+43200000);
-
-  const eighteen=
-    new Date(now.getTime()+64800000);
+  /* Rolling time axis */
 
   const ticks=[
     ["NOW",now],
-    [timeText(six),six],
-    [timeText(twelve),twelve],
-    [timeText(eighteen),eighteen],
-    [timeText(end),end]
+    ["+6h",new Date(now.getTime()+21600000)],
+    ["+12h",new Date(now.getTime()+43200000)],
+    ["+18h",new Date(now.getTime()+64800000)],
+    ["+24h",end]
   ];
 
   ctx.fillStyle="#94a3b8";
@@ -488,3 +415,158 @@ function drawChart(){
   ctx.textAlign="center";
 
   ticks.forEach(function(item){
+    ctx.fillText(item[0],X(item[1]),H-9);
+  });
+}
+
+function render(){
+
+  const now=new Date();
+  const level=valueAt(now);
+  const open=level>=threshold;
+
+  el("status").className="card status "+(open?"open":"closed");
+  el("statusTitle").textContent=open
+    ?"✓ BOAT WINDOW OPEN"
+    :"BOAT WINDOW CLOSED";
+
+  el("currentLevel").textContent=level.toFixed(2)+" ft";
+
+  const future=new Date(now.getTime()+3*86400000);
+  const next=crossings(now,future)[0];
+
+  el("nextLabel").textContent=open?"GOOD UNTIL":"NEXT OPENS";
+  el("nextTime").textContent=next?timeText(next.time):"—";
+
+  const graphEnd=new Date(now.getTime()+86400000);
+
+  el("timeRange").textContent=
+    timeText(now)+" "+dayText(now)+" → "+
+    timeText(graphEnd)+" "+dayText(graphEnd);
+
+  drawChart();
+
+  const holder=el("windows");
+  holder.innerHTML="";
+
+  const today=new Date(now);
+  today.setHours(0,0,0,0);
+
+  for(let d=0;d<3;d++){
+
+    const start=new Date(today);
+    start.setDate(start.getDate()+d);
+
+    const end=new Date(start);
+    end.setDate(end.getDate()+1);
+
+    const list=boatWindows(start,end);
+
+    const card=document.createElement("div");
+    card.className="card day";
+
+    const title=document.createElement("div");
+    title.className="dayTitle";
+    title.textContent=(d===0?"Today · ":"")+dayText(start);
+    card.appendChild(title);
+
+    if(!list.length){
+      const none=document.createElement("div");
+      none.className="muted";
+      none.style.marginTop="8px";
+      none.textContent="No usable boat window";
+      card.appendChild(none);
+    }
+
+    list.forEach(function(w){
+      const row=document.createElement("div");
+      row.className="window";
+
+      const label=document.createElement("span");
+      label.textContent="Boat open";
+
+      const times=document.createElement("strong");
+      times.textContent=timeText(w[0])+" – "+timeText(w[1]);
+
+      row.appendChild(label);
+      row.appendChild(times);
+      card.appendChild(row);
+    });
+
+    holder.appendChild(card);
+  }
+
+  el("loading").classList.add("hidden");
+  el("main").classList.remove("hidden");
+}
+
+async function load(){
+
+  try{
+
+    const start=new Date();
+    start.setDate(start.getDate()-1);
+
+    const end=new Date();
+    end.setDate(end.getDate()+4);
+
+    const url=
+      "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter"+
+      "?product=predictions"+
+      "&application=PetesBoatTides"+
+      "&begin_date="+apiDate(start)+
+      "&end_date="+apiDate(end)+
+      "&datum=MLLW"+
+      "&station="+STATION+
+      "&time_zone=lst_ldt"+
+      "&units=english"+
+      "&interval=6"+
+      "&format=json";
+
+    const response=await fetch(url);
+
+    if(!response.ok){
+      throw new Error("NOAA request failed");
+    }
+
+    const data=await response.json();
+
+    if(!data.predictions){
+      throw new Error(
+        data.error&&data.error.message
+        ?data.error.message
+        :"No prediction data returned"
+      );
+    }
+
+    points=data.predictions.map(function(p){
+      return {
+        time:parseNOAA(p.t),
+        value:Number(p.v)
+      };
+    });
+
+    render();
+
+  }catch(error){
+
+    el("loading").classList.add("hidden");
+    el("error").classList.remove("hidden");
+
+    el("error").textContent=
+      "Could not load NOAA tide predictions. Refresh the page. "+
+      error.message;
+  }
+}
+
+window.addEventListener("resize",function(){
+  if(points.length){drawChart();}
+});
+
+load();
+
+})();
+</script>
+
+</body>
+</html>
