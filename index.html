@@ -17,37 +17,137 @@
   --blue:#9bdff5;
   --green:#34d399;
   --greenbg:#143d33;
+  --amber:#fbbf24;
+  --red:#ff737c;
 }
-*{box-sizing:border-box}
+
+*{
+  box-sizing:border-box;
+}
+
 body{
   margin:0;
   background:linear-gradient(#071827,#0b2131);
   color:var(--text);
   font-family:system-ui,-apple-system,Segoe UI,sans-serif;
 }
-.wrap{max-width:760px;margin:auto;padding:18px 15px 45px}
-.top{display:flex;justify-content:space-between;align-items:start;gap:10px}
-.eyebrow{font-size:12px;font-weight:800;letter-spacing:.12em;color:#7dd3fc}
-h1{font-size:29px;margin:2px 0}
-.sub,.muted{color:var(--muted);font-size:13px}
-.updated{color:#718899;font-size:11px;margin-top:3px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px}
-.status{margin-top:16px;padding:16px}
-.status.open{background:#123d34;border-color:#2a8f6b}
-.status.closed{background:#39262b;border-color:#8a4850}
-.statusTitle{font-size:26px;font-weight:850;margin-top:4px}
-.metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-.metric{background:rgba(0,0,0,.2);border-radius:12px;padding:11px}
-.metric b{display:block;font-size:20px;margin-top:2px}
+
+.wrap{
+  max-width:900px;
+  margin:auto;
+  padding:18px 15px 45px;
+}
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+}
+
+.headerButtons{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+.eyebrow{
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.12em;
+  color:#7dd3fc;
+}
+
+h1{
+  font-size:29px;
+  margin:2px 0;
+}
+
+.sub,
+.muted{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.timeStatus{
+  color:#8ca3b2;
+  font-size:11px;
+  line-height:1.45;
+  margin-top:4px;
+}
+
+.timeStatus.stale{
+  color:var(--amber);
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+}
+
+.status{
+  margin-top:16px;
+  padding:16px;
+}
+
+.status.open{
+  background:#123d34;
+  border-color:#2a8f6b;
+}
+
+.status.closed{
+  background:#39262b;
+  border-color:#8a4850;
+}
+
+.statusTitle{
+  font-size:26px;
+  font-weight:850;
+  margin-top:4px;
+}
+
+.metrics{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:12px;
+}
+
+.metric{
+  background:rgba(0,0,0,.2);
+  border-radius:12px;
+  padding:11px;
+}
+
+.metric b{
+  display:block;
+  font-size:20px;
+  margin-top:2px;
+}
+
 button{
   font:inherit;
   color:white;
   background:#1e3444;
-  border:0;
+  border:1px solid #345267;
   border-radius:999px;
   padding:9px 13px;
   cursor:pointer;
 }
+
+button:disabled{
+  opacity:.65;
+  cursor:default;
+}
+
+button:focus-visible,
+input:focus-visible{
+  outline:3px solid #7dd3fc;
+  outline-offset:2px;
+}
+
 .settings{
   margin-top:10px;
   padding:13px;
@@ -55,20 +155,47 @@ button{
   border:1px solid #345267;
   border-radius:14px;
 }
-.hidden{display:none!important}
-input{width:100%}
-.settingrow{display:flex;align-items:center;gap:12px;margin-top:8px}
-.settingrow strong{min-width:55px;color:var(--green)}
+
+.hidden{
+  display:none !important;
+}
+
+input{
+  width:100%;
+}
+
+.settingrow{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-top:8px;
+}
+
+.settingrow strong{
+  min-width:55px;
+  color:var(--green);
+}
+
 .sectionHead{
   display:flex;
   justify-content:space-between;
-  align-items:end;
+  align-items:flex-end;
   gap:8px;
   margin-top:22px;
   margin-bottom:8px;
 }
-.sectionHead h2{font-size:21px;margin:0}
-.greenLabel{font-size:11px;color:var(--green);font-weight:800}
+
+.sectionHead h2{
+  font-size:21px;
+  margin:0;
+}
+
+.greenLabel{
+  font-size:11px;
+  color:var(--green);
+  font-weight:800;
+}
+
 .chart{
   height:310px;
   background:#112b3d;
@@ -76,20 +203,55 @@ input{width:100%}
   overflow:hidden;
   position:relative;
 }
-canvas{width:100%;height:100%}
-.windows{display:grid;gap:9px}
-.windowCard{padding:13px}
-.windowTitle{font-weight:800}
+
+canvas{
+  width:100%;
+  height:100%;
+}
+
+.windows{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  align-items:start;
+}
+
+.dayCard{
+  padding:14px;
+  min-width:0;
+}
+
+.dayTitle{
+  font-size:17px;
+  font-weight:850;
+}
+
+.dayDate{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:2px;
+}
+
 .window{
-  margin-top:8px;
+  margin-top:10px;
   background:var(--greenbg);
   border-left:4px solid var(--green);
   border-radius:11px;
   padding:11px;
-  display:flex;
-  justify-content:space-between;
-  gap:8px;
 }
+
+.windowTime{
+  font-size:15px;
+  font-weight:850;
+  line-height:1.25;
+}
+
+.windowDuration{
+  color:#a7f3d0;
+  font-size:12px;
+  margin-top:4px;
+}
+
 .error{
   margin-top:15px;
   background:#40252b;
@@ -97,11 +259,32 @@ canvas{width:100%;height:100%}
   padding:13px;
   border-radius:13px;
 }
+
+.refreshNotice{
+  margin-top:10px;
+  font-size:12px;
+  color:var(--amber);
+}
+
 footer{
   color:#718899;
   font-size:11px;
   line-height:1.45;
   margin-top:16px;
+}
+
+@media(max-width:650px){
+  .windows{
+    grid-template-columns:1fr;
+  }
+
+  .top{
+    align-items:flex-start;
+  }
+
+  .headerButtons{
+    max-width:165px;
+  }
 }
 </style>
 </head>
@@ -110,17 +293,23 @@ footer{
 <div class="wrap">
 
 <div class="top">
+
   <div>
     <div class="eyebrow">DEWEY BEACH</div>
     <h1>Boat Tides</h1>
     <div class="sub">Indian River Inlet +180 min</div>
-    <div id="updated" class="updated"></div>
+    <div id="timeStatus" class="timeStatus"></div>
   </div>
 
-  <button id="settingsButton" type="button">Settings</button>
+  <div class="headerButtons">
+    <button id="refreshButton" type="button">Refresh</button>
+    <button id="settingsButton" type="button">Settings</button>
+  </div>
+
 </div>
 
 <div id="settings" class="settings hidden">
+
   <strong>Minimum boat depth</strong>
 
   <div class="settingrow">
@@ -134,7 +323,10 @@ footer{
     >
     <strong id="depthValue">1.6 ft</strong>
   </div>
+
 </div>
+
+<div id="refreshNotice" class="refreshNotice hidden"></div>
 
 <div id="loading" class="muted" style="margin-top:20px">
 Loading NOAA tide predictions...
@@ -145,10 +337,13 @@ Loading NOAA tide predictions...
 <div id="main" class="hidden">
 
 <section id="status" class="card status">
+
   <div class="eyebrow">RIGHT NOW</div>
+
   <div id="statusTitle" class="statusTitle"></div>
 
   <div class="metrics">
+
     <div class="metric">
       <span class="muted">PREDICTED LEVEL</span>
       <b id="currentLevel"></b>
@@ -158,16 +353,20 @@ Loading NOAA tide predictions...
       <span id="nextLabel" class="muted"></span>
       <b id="nextTime"></b>
     </div>
+
   </div>
+
 </section>
 
 <div class="sectionHead">
+
   <div>
     <h2>Next 24 Hours</h2>
     <div id="timeRange" class="muted"></div>
   </div>
 
   <div class="greenLabel">GREEN = BOAT OPEN</div>
+
 </div>
 
 <div class="chart">
@@ -175,7 +374,7 @@ Loading NOAA tide predictions...
 </div>
 
 <div class="sectionHead">
-  <h2>Upcoming Boat Windows · Next 3 Days</h2>
+  <h2>Boat Windows · Today + 2 Days</h2>
 </div>
 
 <div id="windows" class="windows"></div>
@@ -184,8 +383,8 @@ Loading NOAA tide predictions...
 
 <footer>
 NOAA Indian River Inlet station 8558690 · MLLW · Predictions shifted 180 minutes later.
-Minimum boat depth defaults to 1.6 ft. Weather and local conditions can cause actual
-water levels to differ from predictions.
+Minimum boat depth defaults to 1.6 ft. Weather, wind, atmospheric pressure and local
+conditions can cause actual water levels to differ from predictions.
 </footer>
 
 </div>
@@ -194,60 +393,82 @@ water levels to differ from predictions.
 (function(){
 
 const STATION="8558690";
-const OFFSET=180;
-const CACHE_KEY="deweyBoatTidesCacheV1";
+const OFFSET_MINUTES=180;
+
+const CACHE_KEY="deweyBoatTidesCacheV3";
 const CACHE_MAX_AGE=24*60*60*1000;
 
-let threshold=Number(localStorage.getItem("boatDepth")||1.6);
+let threshold=
+  Number(
+    localStorage.getItem("boatDepth") || 1.6
+  );
+
 let points=[];
+let dataUpdatedAt=null;
+let currentTimer=null;
+let refreshInProgress=false;
 
 function el(id){
   return document.getElementById(id);
 }
 
-function pad(n){
-  return String(n).padStart(2,"0");
+function pad(number){
+  return String(number).padStart(2,"0");
 }
 
-function apiDateTime(d){
-  return d.getFullYear()+
-    pad(d.getMonth()+1)+
-    pad(d.getDate())+
+function apiDateTime(date){
+
+  return date.getFullYear()+
+    pad(date.getMonth()+1)+
+    pad(date.getDate())+
     " "+
-    pad(d.getHours())+
+    pad(date.getHours())+
     ":"+
-    pad(d.getMinutes());
+    pad(date.getMinutes());
 }
 
-function timeText(d){
-  return d.toLocaleTimeString([],{
+function timeText(date){
+
+  return date.toLocaleTimeString([],{
     hour:"numeric",
     minute:"2-digit"
   });
 }
 
-function dayText(d){
-  return d.toLocaleDateString([],{
+function dayText(date){
+
+  return date.toLocaleDateString([],{
     weekday:"short",
     month:"short",
     day:"numeric"
   });
 }
 
-function shortDay(d){
-  return d.toLocaleDateString([],{
+function weekdayText(date){
+
+  return date.toLocaleDateString([],{
     weekday:"short"
   });
 }
 
-function sameDay(a,b){
-  return a.getFullYear()===b.getFullYear() &&
-    a.getMonth()===b.getMonth() &&
-    a.getDate()===b.getDate();
+function dateText(date){
+
+  return date.toLocaleDateString([],{
+    month:"short",
+    day:"numeric"
+  });
 }
 
-function parseNOAA(s){
-  const parts=s.split(" ");
+function sameDay(first,second){
+
+  return first.getFullYear()===second.getFullYear() &&
+    first.getMonth()===second.getMonth() &&
+    first.getDate()===second.getDate();
+}
+
+function parseNOAA(value){
+
+  const parts=value.split(" ");
   const date=parts[0].split("-").map(Number);
   const time=parts[1].split(":").map(Number);
 
@@ -256,104 +477,269 @@ function parseNOAA(s){
     date[1]-1,
     date[2],
     time[0],
-    time[1]+OFFSET
+    time[1]+OFFSET_MINUTES
   );
 }
 
 function serializePoints(list){
-  return list.map(function(p){
+
+  return list.map(function(point){
+
     return {
-      t:p.time.getTime(),
-      v:p.value
+      t:point.time.getTime(),
+      v:point.value
     };
   });
 }
 
 function deserializePoints(list){
-  return list.map(function(p){
+
+  return list.map(function(point){
+
     return {
-      time:new Date(p.t),
-      value:Number(p.v)
+      time:new Date(point.t),
+      value:Number(point.v)
     };
   });
 }
 
-function setUpdated(timestamp,cached){
-  el("updated").textContent=
-    (cached ? "Showing saved tides · " : "Updated ")+
-    timeText(new Date(timestamp));
+function durationText(start,end){
+
+  const totalMinutes=
+    Math.max(
+      0,
+      Math.round(
+        (end-start)/60000
+      )
+    );
+
+  const hours=
+    Math.floor(
+      totalMinutes/60
+    );
+
+  const minutes=
+    totalMinutes%60;
+
+  if(hours===0){
+    return minutes+" min";
+  }
+
+  if(minutes===0){
+    return hours+
+      (hours===1 ? " hr" : " hrs");
+  }
+
+  return hours+
+    (hours===1 ? " hr " : " hrs ")+
+    minutes+
+    " min";
+}
+
+function relativeAge(timestamp){
+
+  const ageMinutes=
+    Math.max(
+      0,
+      Math.floor(
+        (Date.now()-timestamp)/60000
+      )
+    );
+
+  if(ageMinutes<1){
+    return "just now";
+  }
+
+  if(ageMinutes<60){
+    return ageMinutes+" min ago";
+  }
+
+  const hours=
+    Math.floor(
+      ageMinutes/60
+    );
+
+  return hours+
+    (hours===1 ? " hr ago" : " hrs ago");
+}
+
+function updateTimeStatus(){
+
+  const now=new Date();
+
+  let text=
+    "Now "+
+    timeText(now);
+
+  if(dataUpdatedAt){
+
+    text+=
+      " · Tides updated "+
+      timeText(
+        new Date(dataUpdatedAt)
+      );
+
+    const age=
+      Date.now()-dataUpdatedAt;
+
+    el("timeStatus").classList.toggle(
+      "stale",
+      age>6*60*60*1000
+    );
+  }
+
+  el("timeStatus").textContent=text;
+}
+
+function startClock(){
+
+  if(currentTimer){
+    clearInterval(currentTimer);
+  }
+
+  updateTimeStatus();
+
+  currentTimer=
+    setInterval(
+      function(){
+
+        updateTimeStatus();
+
+        if(points.length){
+          render();
+        }
+
+      },
+      60000
+    );
 }
 
 el("depth").value=threshold;
-el("depthValue").textContent=threshold.toFixed(1)+" ft";
 
-el("settingsButton").addEventListener("click",function(){
-  el("settings").classList.toggle("hidden");
-});
+el("depthValue").textContent=
+  threshold.toFixed(1)+" ft";
 
-el("depth").addEventListener("input",function(e){
-  threshold=Number(e.target.value);
+el("settingsButton").addEventListener(
+  "click",
+  function(){
 
-  localStorage.setItem(
-    "boatDepth",
-    String(threshold)
-  );
-
-  el("depthValue").textContent=
-    threshold.toFixed(1)+" ft";
-
-  if(points.length){
-    render();
+    el("settings").
+      classList.toggle("hidden");
   }
-});
+);
 
-function valueAt(t){
-  for(let i=1;i<points.length;i++){
-    if(t<=points[i].time){
-      const a=points[i-1];
-      const b=points[i];
-      const fraction=(t-a.time)/(b.time-a.time);
+el("depth").addEventListener(
+  "input",
+  function(event){
 
-      return a.value+
-        fraction*(b.value-a.value);
+    threshold=
+      Number(
+        event.target.value
+      );
+
+    localStorage.setItem(
+      "boatDepth",
+      String(threshold)
+    );
+
+    el("depthValue").textContent=
+      threshold.toFixed(1)+" ft";
+
+    if(points.length){
+      render();
+    }
+  }
+);
+
+el("refreshButton").addEventListener(
+  "click",
+  function(){
+
+    refreshData(
+      points.length>0,
+      true
+    );
+  }
+);
+
+function valueAt(time){
+
+  for(let index=1;index<points.length;index++){
+
+    if(time<=points[index].time){
+
+      const first=
+        points[index-1];
+
+      const second=
+        points[index];
+
+      const fraction=
+        (time-first.time)/
+        (second.time-first.time);
+
+      return first.value+
+        fraction*
+        (second.value-first.value);
     }
   }
 
-  return points[points.length-1].value;
+  return points[
+    points.length-1
+  ].value;
 }
 
-function crossingTime(a,b){
+function crossingTime(first,second){
+
   const fraction=
-    (threshold-a.value)/
-    (b.value-a.value);
+    (threshold-first.value)/
+    (second.value-first.value);
 
   return new Date(
-    a.time.getTime()+
-    fraction*(b.time-a.time)
+    first.time.getTime()+
+    fraction*
+    (second.time-first.time)
   );
 }
 
 function crossings(start,end){
+
   const result=[];
 
-  for(let i=1;i<points.length;i++){
-    const a=points[i-1];
-    const b=points[i];
+  for(let index=1;index<points.length;index++){
 
-    if(b.time<start || a.time>end){
+    const first=
+      points[index-1];
+
+    const second=
+      points[index];
+
+    if(
+      second.time<start ||
+      first.time>end
+    ){
       continue;
     }
 
     if(
-      (a.value-threshold)*
-      (b.value-threshold)<0
+      (first.value-threshold)*
+      (second.value-threshold)<0
     ){
-      const time=crossingTime(a,b);
 
-      if(time>=start && time<=end){
+      const time=
+        crossingTime(
+          first,
+          second
+        );
+
+      if(
+        time>=start &&
+        time<=end
+      ){
+
         result.push({
           time:time,
-          open:b.value>a.value
+          open:second.value>first.value
         });
       }
     }
@@ -363,7 +749,13 @@ function crossings(start,end){
 }
 
 function boatWindows(start,end){
-  const changes=crossings(start,end);
+
+  const changes=
+    crossings(
+      start,
+      end
+    );
+
   const result=[];
 
   let open=
@@ -371,20 +763,27 @@ function boatWindows(start,end){
       ?start
       :null;
 
-  changes.forEach(function(change){
-    if(change.open){
-      open=change.time;
-    }else if(open){
-      result.push([
-        open,
-        change.time
-      ]);
+  changes.forEach(
+    function(change){
 
-      open=null;
+      if(change.open){
+
+        open=change.time;
+
+      }else if(open){
+
+        result.push([
+          open,
+          change.time
+        ]);
+
+        open=null;
+      }
     }
-  });
+  );
 
   if(open){
+
     result.push([
       open,
       end
@@ -395,19 +794,40 @@ function boatWindows(start,end){
 }
 
 function drawChart(){
-  const canvas=el("chart");
-  const width=canvas.parentElement.clientWidth;
+
+  const canvas=
+    el("chart");
+
+  const width=
+    canvas.parentElement.clientWidth;
+
   const height=310;
-  const ratio=window.devicePixelRatio||1;
 
-  canvas.style.width=width+"px";
-  canvas.style.height=height+"px";
+  const ratio=
+    window.devicePixelRatio || 1;
 
-  canvas.width=Math.round(width*ratio);
-  canvas.height=Math.round(height*ratio);
+  canvas.style.width=
+    width+"px";
 
-  const ctx=canvas.getContext("2d");
-  ctx.setTransform(ratio,0,0,ratio,0,0);
+  canvas.style.height=
+    height+"px";
+
+  canvas.width=
+    Math.round(
+      width*ratio
+    );
+
+  canvas.height=
+    Math.round(
+      height*ratio
+    );
+
+  const context=
+    canvas.getContext("2d");
+
+  context.setTransform(
+    ratio,0,0,ratio,0,0
+  );
 
   const left=50;
   const right=10;
@@ -415,102 +835,161 @@ function drawChart(){
   const bottom=34;
 
   const now=new Date();
-  const end=new Date(now.getTime()+86400000);
 
-  const visible=points.filter(function(p){
-    return p.time>=now && p.time<=end;
-  });
+  const end=
+    new Date(
+      now.getTime()+
+      24*60*60*1000
+    );
+
+  const visible=
+    points.filter(
+      function(point){
+
+        return (
+          point.time>=now &&
+          point.time<=end
+        );
+      }
+    );
 
   if(!visible.length){
     return;
   }
 
-  const min=-1;
+  const minimum=-1;
 
-  const highest=Math.max.apply(
-    null,
-    visible.map(function(p){
-      return p.value;
-    })
-  );
+  const highest=
+    Math.max.apply(
+      null,
+      visible.map(
+        function(point){
+          return point.value;
+        }
+      )
+    );
 
-  const max=Math.max(
-    4,
-    Math.ceil(highest)
-  );
+  const maximum=
+    Math.max(
+      4,
+      Math.ceil(highest)
+    );
 
-  const plotWidth=width-left-right;
-  const plotHeight=height-top-bottom;
+  const plotWidth=
+    width-left-right;
 
-  function xPosition(t){
+  const plotHeight=
+    height-top-bottom;
+
+  function xPosition(time){
+
     return left+
-      ((t-now)/(end-now))*
+      ((time-now)/(end-now))*
       plotWidth;
   }
 
-  function yPosition(v){
+  function yPosition(value){
+
     return top+
-      ((max-v)/(max-min))*
+      ((maximum-value)/(maximum-minimum))*
       plotHeight;
   }
 
-  ctx.clearRect(
-    0,
-    0,
-    width,
-    height
+  context.clearRect(
+    0,0,width,height
   );
 
-  ctx.font="11px system-ui";
-  ctx.textAlign="right";
+  context.font=
+    "11px system-ui";
 
-  for(let v=min;v<=max;v++){
-    const y=yPosition(v);
+  context.textAlign=
+    "right";
 
-    ctx.strokeStyle="rgba(203,213,225,.13)";
-    ctx.lineWidth=1;
+  for(
+    let value=minimum;
+    value<=maximum;
+    value++
+  ){
 
-    ctx.beginPath();
-    ctx.moveTo(left,y);
-    ctx.lineTo(width-right,y);
-    ctx.stroke();
+    const y=
+      yPosition(value);
 
-    ctx.fillStyle="#94a3b8";
+    context.strokeStyle=
+      "rgba(203,213,225,.13)";
 
-    ctx.fillText(
-      v.toFixed(1)+"′",
+    context.lineWidth=1;
+
+    context.beginPath();
+
+    context.moveTo(
+      left,
+      y
+    );
+
+    context.lineTo(
+      width-right,
+      y
+    );
+
+    context.stroke();
+
+    context.fillStyle=
+      "#94a3b8";
+
+    context.fillText(
+      value.toFixed(1)+"′",
       left-7,
       y+4
     );
   }
 
-  const thresholdY=yPosition(threshold);
+  const thresholdY=
+    yPosition(threshold);
 
-  ctx.strokeStyle="#34d399";
-  ctx.lineWidth=2;
-  ctx.setLineDash([7,6]);
+  context.strokeStyle=
+    "#34d399";
 
-  ctx.beginPath();
-  ctx.moveTo(left,thresholdY);
-  ctx.lineTo(width-right,thresholdY);
-  ctx.stroke();
+  context.lineWidth=2;
 
-  ctx.setLineDash([]);
+  context.setLineDash(
+    [7,6]
+  );
 
-  ctx.fillStyle="#6ee7b7";
-  ctx.font="bold 11px system-ui";
+  context.beginPath();
 
-  ctx.fillText(
+  context.moveTo(
+    left,
+    thresholdY
+  );
+
+  context.lineTo(
+    width-right,
+    thresholdY
+  );
+
+  context.stroke();
+
+  context.setLineDash([]);
+
+  context.fillStyle=
+    "#6ee7b7";
+
+  context.font=
+    "bold 11px system-ui";
+
+  context.fillText(
     threshold.toFixed(1)+"′",
     left-7,
     thresholdY+4
   );
 
-  ctx.save();
+  /* Green area between the curve and threshold */
 
-  ctx.beginPath();
+  context.save();
 
-  ctx.rect(
+  context.beginPath();
+
+  context.rect(
     left,
     top,
     plotWidth,
@@ -520,23 +999,32 @@ function drawChart(){
     )
   );
 
-  ctx.clip();
+  context.clip();
 
-  ctx.beginPath();
+  context.beginPath();
 
-  ctx.moveTo(
-    xPosition(visible[0].time),
+  context.moveTo(
+    xPosition(
+      visible[0].time
+    ),
     thresholdY
   );
 
-  visible.forEach(function(p){
-    ctx.lineTo(
-      xPosition(p.time),
-      yPosition(p.value)
-    );
-  });
+  visible.forEach(
+    function(point){
 
-  ctx.lineTo(
+      context.lineTo(
+        xPosition(
+          point.time
+        ),
+        yPosition(
+          point.value
+        )
+      );
+    }
+  );
+
+  context.lineTo(
     xPosition(
       visible[
         visible.length-1
@@ -545,251 +1033,418 @@ function drawChart(){
     thresholdY
   );
 
-  ctx.closePath();
+  context.closePath();
 
-  ctx.fillStyle="rgba(52,211,153,.42)";
-  ctx.fill();
+  context.fillStyle=
+    "rgba(52,211,153,.42)";
 
-  ctx.restore();
+  context.fill();
 
-  ctx.strokeStyle="#9bdff5";
-  ctx.lineWidth=3;
+  context.restore();
 
-  ctx.beginPath();
+  /* Tide curve */
 
-  visible.forEach(function(p,index){
-    if(index===0){
-      ctx.moveTo(
-        xPosition(p.time),
-        yPosition(p.value)
-      );
-    }else{
-      ctx.lineTo(
-        xPosition(p.time),
-        yPosition(p.value)
-      );
+  context.strokeStyle=
+    "#9bdff5";
+
+  context.lineWidth=3;
+
+  context.beginPath();
+
+  visible.forEach(
+    function(point,index){
+
+      if(index===0){
+
+        context.moveTo(
+          xPosition(
+            point.time
+          ),
+          yPosition(
+            point.value
+          )
+        );
+
+      }else{
+
+        context.lineTo(
+          xPosition(
+            point.time
+          ),
+          yPosition(
+            point.value
+          )
+        );
+      }
     }
-  });
-
-  ctx.stroke();
-
-  const changes=crossings(now,end);
-
-  ctx.textAlign="center";
-
-  changes.forEach(function(change){
-    const x=xPosition(change.time);
-
-    ctx.fillStyle="#ffffff";
-    ctx.strokeStyle="#34d399";
-    ctx.lineWidth=3;
-
-    ctx.beginPath();
-
-    ctx.arc(
-      x,
-      thresholdY,
-      6,
-      0,
-      Math.PI*2
-    );
-
-    ctx.fill();
-    ctx.stroke();
-
-    const labelY=
-      thresholdY+
-      (change.open?-24:29);
-
-    ctx.fillStyle="#ffffff";
-    ctx.font="bold 10px system-ui";
-
-    ctx.fillText(
-      change.open
-        ?"OPEN"
-        :"CLOSE",
-      x,
-      labelY
-    );
-
-    ctx.fillStyle="#b8f5da";
-    ctx.font="9px system-ui";
-
-    ctx.fillText(
-      timeText(change.time),
-      x,
-      labelY+11
-    );
-  });
-
-  const six=
-    new Date(
-      now.getTime()+21600000
-    );
-
-  const twelve=
-    new Date(
-      now.getTime()+43200000
-    );
-
-  const eighteen=
-    new Date(
-      now.getTime()+64800000
-    );
-
-  const ticks=[
-    ["NOW",now],
-    [timeText(six),six],
-    [timeText(twelve),twelve],
-    [timeText(eighteen),eighteen],
-    [timeText(end),end]
-  ];
-
-  ctx.fillStyle="#94a3b8";
-  ctx.font="10px system-ui";
-  ctx.textAlign="center";
-
-  ticks.forEach(function(item){
-    ctx.fillText(
-      item[0],
-      xPosition(item[1]),
-      height-9
-    );
-  });
-}
-
-function windowTitle(start,now){
-  if(start.getTime()===now.getTime()){
-    return "Open now";
-  }
-
-  const today=new Date(now);
-  today.setHours(0,0,0,0);
-
-  const tomorrow=new Date(today);
-  tomorrow.setDate(
-    tomorrow.getDate()+1
   );
 
-  if(sameDay(start,today)){
-    return start.getHours()>=17
-      ?"Tonight"
-      :"Today";
-  }
+  context.stroke();
 
-  if(sameDay(start,tomorrow)){
-    return start.getHours()>=17
-      ?"Tomorrow night"
-      :"Tomorrow";
-  }
+  /* Open and close crossings */
 
-  return dayText(start);
-}
-
-function renderWindows(now){
-  const holder=el("windows");
-  holder.innerHTML="";
-
-  const end=
-    new Date(
-      now.getTime()+
-      72*60*60*1000
-    );
-
-  const list=
-    boatWindows(
+  const changes=
+    crossings(
       now,
       end
     );
 
-  if(!list.length){
-    const none=
-      document.createElement("div");
+  context.textAlign=
+    "center";
 
-    none.className=
-      "card windowCard muted";
+  changes.forEach(
+    function(change){
 
-    none.textContent=
-      "No usable boat windows in the next 3 days";
+      const x=
+        xPosition(
+          change.time
+        );
 
-    holder.appendChild(none);
+      context.fillStyle=
+        "#ffffff";
 
-    return;
-  }
+      context.strokeStyle=
+        "#34d399";
 
-  list.forEach(function(window){
+      context.lineWidth=3;
+
+      context.beginPath();
+
+      context.arc(
+        x,
+        thresholdY,
+        6,
+        0,
+        Math.PI*2
+      );
+
+      context.fill();
+      context.stroke();
+
+      const labelY=
+        thresholdY+
+        (change.open ? -24 : 29);
+
+      context.fillStyle=
+        "#ffffff";
+
+      context.font=
+        "bold 10px system-ui";
+
+      context.fillText(
+        change.open
+          ?"OPEN"
+          :"CLOSE",
+        x,
+        labelY
+      );
+
+      context.fillStyle=
+        "#b8f5da";
+
+      context.font=
+        "9px system-ui";
+
+      context.fillText(
+        timeText(
+          change.time
+        ),
+        x,
+        labelY+11
+      );
+    }
+  );
+
+  /* Actual clock-time axis */
+
+  const sixHours=
+    new Date(
+      now.getTime()+
+      6*60*60*1000
+    );
+
+  const twelveHours=
+    new Date(
+      now.getTime()+
+      12*60*60*1000
+    );
+
+  const eighteenHours=
+    new Date(
+      now.getTime()+
+      18*60*60*1000
+    );
+
+  const ticks=[
+    ["NOW",now],
+    [timeText(sixHours),sixHours],
+    [timeText(twelveHours),twelveHours],
+    [timeText(eighteenHours),eighteenHours],
+    [timeText(end),end]
+  ];
+
+  context.fillStyle=
+    "#94a3b8";
+
+  context.font=
+    "10px system-ui";
+
+  context.textAlign=
+    "center";
+
+  ticks.forEach(
+    function(item){
+
+      context.fillText(
+        item[0],
+        xPosition(
+          item[1]
+        ),
+        height-9
+      );
+    }
+  );
+}
+
+function renderDayCards(now){
+
+  const holder=
+    el("windows");
+
+  holder.innerHTML="";
+
+  const today=
+    new Date(now);
+
+  today.setHours(
+    0,0,0,0
+  );
+
+  /*
+    Calculate through the morning after Day 3.
+    This lets Saturday night's window close on Sunday
+    without splitting the window at midnight.
+  */
+
+  const calculationEnd=
+    new Date(today);
+
+  calculationEnd.setDate(
+    calculationEnd.getDate()+4
+  );
+
+  const allWindows=
+    boatWindows(
+      today,
+      calculationEnd
+    );
+
+  for(
+    let dayIndex=0;
+    dayIndex<3;
+    dayIndex++
+  ){
+
+    const dayStart=
+      new Date(today);
+
+    dayStart.setDate(
+      dayStart.getDate()+
+      dayIndex
+    );
+
+    const nextDay=
+      new Date(dayStart);
+
+    nextDay.setDate(
+      nextDay.getDate()+1
+    );
+
+    const dayWindows=
+      allWindows.filter(
+        function(window){
+
+          /*
+            A continuous window belongs to the day
+            on which the window opens.
+          */
+
+          return (
+            window[0]>=dayStart &&
+            window[0]<nextDay
+          );
+        }
+      );
+
     const card=
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
     card.className=
-      "card windowCard";
+      "card dayCard";
 
     const title=
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
     title.className=
-      "windowTitle";
+      "dayTitle";
 
-    title.textContent=
-      windowTitle(
-        window[0],
-        now
+    if(dayIndex===0){
+
+      title.textContent=
+        "Today";
+
+    }else if(dayIndex===1){
+
+      title.textContent=
+        "Tomorrow";
+
+    }else{
+
+      title.textContent=
+        weekdayText(
+          dayStart
+        );
+    }
+
+    const date=
+      document.createElement(
+        "div"
       );
 
-    const row=
-      document.createElement("div");
+    date.className=
+      "dayDate";
 
-    row.className="window";
-
-    const label=
-      document.createElement("span");
-
-    label.textContent=
-      "Boat open";
-
-    const times=
-      document.createElement("strong");
-
-    const startText=
-      window[0].getTime()===
-      now.getTime()
-        ?"NOW"
-        :timeText(window[0]);
-
-    const endText=
-      timeText(window[1])+
-      (
-        sameDay(
-          window[0],
-          window[1]
-        )
-          ?""
-          :" "+shortDay(window[1])
+    date.textContent=
+      dateText(
+        dayStart
       );
-
-    times.textContent=
-      startText+
-      " – "+
-      endText;
-
-    row.appendChild(label);
-    row.appendChild(times);
 
     card.appendChild(title);
-    card.appendChild(row);
+    card.appendChild(date);
+
+    if(!dayWindows.length){
+
+      const none=
+        document.createElement(
+          "div"
+        );
+
+      none.className=
+        "muted";
+
+      none.style.marginTop=
+        "12px";
+
+      none.textContent=
+        "No usable boat window";
+
+      card.appendChild(none);
+    }
+
+    dayWindows.forEach(
+      function(window){
+
+        const row=
+          document.createElement(
+            "div"
+          );
+
+        row.className=
+          "window";
+
+        const time=
+          document.createElement(
+            "div"
+          );
+
+        time.className=
+          "windowTime";
+
+        const currentlyOpen=
+          now>=window[0] &&
+          now<window[1];
+
+        const startText=
+          currentlyOpen
+            ?"NOW"
+            :timeText(
+                window[0]
+              );
+
+        const endText=
+          timeText(
+            window[1]
+          )+
+          (
+            sameDay(
+              window[0],
+              window[1]
+            )
+              ?""
+              :" "+
+                weekdayText(
+                  window[1]
+                )
+          );
+
+        time.textContent=
+          startText+
+          " – "+
+          endText;
+
+        const duration=
+          document.createElement(
+            "div"
+          );
+
+        duration.className=
+          "windowDuration";
+
+        duration.textContent=
+          currentlyOpen
+            ?durationText(
+                now,
+                window[1]
+              )+
+              " remaining"
+            :durationText(
+                window[0],
+                window[1]
+              );
+
+        row.appendChild(time);
+        row.appendChild(duration);
+
+        card.appendChild(row);
+      }
+    );
 
     holder.appendChild(card);
-  });
+  }
 }
 
 function render(){
-  const now=new Date();
-  const level=valueAt(now);
-  const open=level>=threshold;
+
+  if(points.length<2){
+    return;
+  }
+
+  const now=
+    new Date();
+
+  const level=
+    valueAt(now);
+
+  const open=
+    level>=threshold;
 
   el("status").className=
     "card status "+
-    (open?"open":"closed");
+    (open ? "open" : "closed");
 
   el("statusTitle").textContent=
     open
@@ -805,7 +1460,7 @@ function render(){
       72*60*60*1000
     );
 
-  const next=
+  const nextChange=
     crossings(
       now,
       future
@@ -817,14 +1472,16 @@ function render(){
       :"NEXT OPENS";
 
   el("nextTime").textContent=
-    next
-      ?timeText(next.time)
+    nextChange
+      ?timeText(
+          nextChange.time
+        )
       :"—";
 
   const graphEnd=
     new Date(
       now.getTime()+
-      86400000
+      24*60*60*1000
     );
 
   el("timeRange").textContent=
@@ -837,7 +1494,8 @@ function render(){
     dayText(graphEnd);
 
   drawChart();
-  renderWindows(now);
+  renderDayCards(now);
+  updateTimeStatus();
 
   el("loading").
     classList.add("hidden");
@@ -846,73 +1504,138 @@ function render(){
     classList.remove("hidden");
 }
 
+function saveCache(){
+
+  localStorage.setItem(
+    CACHE_KEY,
+    JSON.stringify({
+      savedAt:dataUpdatedAt,
+      points:serializePoints(
+        points
+      )
+    })
+  );
+}
+
 function useCache(){
+
   try{
+
     const cache=
       JSON.parse(
         localStorage.getItem(
           CACHE_KEY
-        )||"null"
+        ) || "null"
       );
 
     if(
       !cache ||
       !cache.savedAt ||
-      !Array.isArray(cache.points)
-    ){
-      return false;
-    }
-
-    if(
-      Date.now()-cache.savedAt>
-      CACHE_MAX_AGE
-    ){
-      return false;
-    }
-
-    points=
-      deserializePoints(
+      !Array.isArray(
         cache.points
-      );
-
-    if(points.length<2){
-      return false;
-    }
-
-    const now=new Date();
-
-    const coverageEnd=
-      points[
-        points.length-1
-      ].time;
-
-    if(
-      coverageEnd<
-      new Date(
-        now.getTime()+
-        72*60*60*1000
       )
     ){
       return false;
     }
 
-    setUpdated(
-      cache.savedAt,
-      true
+    if(
+      Date.now()-
+      cache.savedAt>
+      CACHE_MAX_AGE
+    ){
+      return false;
+    }
+
+    const cachedPoints=
+      deserializePoints(
+        cache.points
+      );
+
+    if(
+      cachedPoints.length<2
+    ){
+      return false;
+    }
+
+    const coverageEnd=
+      cachedPoints[
+        cachedPoints.length-1
+      ].time;
+
+    /*
+      The cache needs enough coverage to calculate
+      the next three calendar-day cards.
+    */
+
+    const requiredEnd=
+      new Date();
+
+    requiredEnd.setHours(
+      0,0,0,0
     );
+
+    requiredEnd.setDate(
+      requiredEnd.getDate()+4
+    );
+
+    if(
+      coverageEnd<
+      requiredEnd
+    ){
+      return false;
+    }
+
+    points=
+      cachedPoints;
+
+    dataUpdatedAt=
+      Number(
+        cache.savedAt
+      );
 
     render();
 
     return true;
 
   }catch(error){
+
     return false;
   }
 }
 
-async function refreshData(hadCache){
+async function refreshData(
+  hadUsableData,
+  manualRefresh
+){
+
+  if(refreshInProgress){
+    return;
+  }
+
+  refreshInProgress=true;
+
+  const button=
+    el("refreshButton");
+
+  button.disabled=true;
+
+  button.textContent=
+    "Refreshing…";
+
+  el("refreshNotice").
+    classList.add("hidden");
+
   try{
-    const now=new Date();
+
+    const now=
+      new Date();
+
+    /*
+      Request four hours before now for interpolation,
+      through the morning after Day 3 for cross-midnight
+      windows. This is still much smaller than the old
+      five-day request.
+    */
 
     const start=
       new Date(
@@ -921,15 +1644,20 @@ async function refreshData(hadCache){
       );
 
     const end=
-      new Date(
-        now.getTime()+
-        73*60*60*1000
-      );
+      new Date();
+
+    end.setHours(
+      0,0,0,0
+    );
+
+    end.setDate(
+      end.getDate()+4
+    );
 
     const url=
       "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter"+
       "?product=predictions"+
-      "&application=PetesBoatTides"+
+      "&application=DeweyBoatTides"+
       "&begin_date="+
       encodeURIComponent(
         apiDateTime(start)
@@ -946,9 +1674,15 @@ async function refreshData(hadCache){
       "&format=json";
 
     const response=
-      await fetch(url);
+      await fetch(
+        url,
+        {
+          cache:"no-store"
+        }
+      );
 
     if(!response.ok){
+
       throw new Error(
         "NOAA request failed"
       );
@@ -957,7 +1691,11 @@ async function refreshData(hadCache){
     const data=
       await response.json();
 
-    if(!data.predictions){
+    if(
+      !data.predictions ||
+      !data.predictions.length
+    ){
+
       throw new Error(
         data.error &&
         data.error.message
@@ -968,38 +1706,61 @@ async function refreshData(hadCache){
 
     points=
       data.predictions.map(
-        function(p){
+        function(point){
+
           return {
-            time:parseNOAA(p.t),
-            value:Number(p.v)
+            time:parseNOAA(
+              point.t
+            ),
+            value:Number(
+              point.v
+            )
           };
         }
       );
 
-    const savedAt=Date.now();
+    dataUpdatedAt=
+      Date.now();
 
-    localStorage.setItem(
-      CACHE_KEY,
-      JSON.stringify({
-        savedAt:savedAt,
-        points:serializePoints(
-          points
-        )
-      })
-    );
-
-    setUpdated(
-      savedAt,
-      false
-    );
-
+    saveCache();
     render();
 
     el("error").
       classList.add("hidden");
 
+    if(manualRefresh){
+
+      el("refreshNotice").
+        classList.remove("hidden");
+
+      el("refreshNotice").
+        textContent=
+          "Tides refreshed successfully.";
+
+      setTimeout(
+        function(){
+
+          el("refreshNotice").
+            classList.add("hidden");
+
+        },
+        2500
+      );
+    }
+
   }catch(error){
-    if(!hadCache){
+
+    if(hadUsableData){
+
+      el("refreshNotice").
+        classList.remove("hidden");
+
+      el("refreshNotice").
+        textContent=
+          "Refresh failed · showing saved tides.";
+
+    }else{
+
       el("loading").
         classList.add("hidden");
 
@@ -1011,16 +1772,32 @@ async function refreshData(hadCache){
         "Refresh the page. "+
         error.message;
     }
+
+  }finally{
+
+    refreshInProgress=false;
+
+    button.disabled=false;
+
+    button.textContent=
+      "Refresh";
   }
 }
 
-const hadCache=useCache();
+const hadCache=
+  useCache();
 
-refreshData(hadCache);
+startClock();
+
+refreshData(
+  hadCache,
+  false
+);
 
 window.addEventListener(
   "resize",
   function(){
+
     if(points.length){
       drawChart();
     }
